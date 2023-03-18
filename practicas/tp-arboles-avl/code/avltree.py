@@ -310,6 +310,8 @@ def calculateBalance(AVLTree):
 
 def reBalance(AVLTree):
 	AVLTree = calculateBalance(AVLTree)
+	if not AVLTree.root:
+		return AVLTree
 	if AVLTree.root.bf == 1 or AVLTree.bf == 0 or AVLTree.bf == -1:
 		return AVLTree # ya está balanceado
 	else: 
@@ -330,3 +332,35 @@ def insertAVL(AVLTree,element,key):
 def deleteAVL(AVLTree,element):
 	delete(AVLTree,element)
 	AVLTree = reBalance(AVLTree)
+
+
+
+def midValueR(node1,node2,x,lista):
+	if node1.key < x:
+		linkedlist.add(lista,node1.key)
+	if (node1.leftnode):
+		midValueR(node1.leftnode,node2,x,lista)
+	if (node1.rightnode):
+		midValueR(node1.rightnode,node2,x,lista)
+
+	if node2.key > x:
+		linkedlist.add(lista,node2.key)
+	if (node2.leftnode):
+		midValueR(x,node2.leftnode,x,lista)
+	if (node2.rightnode):
+		midValueR(x,node2.rightnode,x,lista)
+	
+	linkedlist.add(lista,x)
+
+	return lista
+
+def midValueR(T1,T2,x):
+	T3 = AVLTree()
+	listaKeys = linkedlist.LinkedList()
+	listaKeys = midValueR(T1.root,T2.root,x,listaKeys)
+	current = listaKeys.head
+	while current != None:
+		insertAVL(T3,None,current.key)
+		current = current.nextNode
+
+	return T3
