@@ -23,4 +23,5 @@ def ContieneSumaR(node,node2,n): #node2 es siempre head al principio
                 ContieneSumaR(node,node2.nextNode,n)
         else:
             ContieneSumaR(node.nextNode,node2,n)
-    return
+    return None
+
