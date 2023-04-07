@@ -47,17 +47,50 @@ def insert(T,element):
 
 
 def completeword(node,element,i):
-    for i in range(i,len(element)-1):
+    for i in range(i,len(element)):
         node.key = element[i]
         node.children = []
         node.children.append(TrieNode())
         node.children[0].parent = node
         node = node.children[0]
+    node=node.parent
     node.isEndOfWord = True
+    node.children = None
 
 
+
+def search(T,element):
+    if T==None or len(element)==0:
+        False
+    else:
+        return searchR(T.root.children,element)
+
+def searchR(current,element):
+    letra = searchLetter(current,element)
+    if letra != None:
+        if len(element)>1:    
+            if letra.children != None:
+                return searchR(letra.children,element[1:])
+            else:
+                return False
+        elif letra.isEndOfWord == True:
+            return True
+        else:
+            return False
+            
+    else:
+        return False
+
+
+def searchLetter(list,element):
+    for i in list:
+        if i.key==element[0]:
+            return i
+    return None
 
 arbol = Trie()
-insert(arbol,"rodrigo")
+insert(arbol,"rodri")
 
-print(arbol.root.children[0].key)
+print(search(arbol,"rodri"))
+
+
