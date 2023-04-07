@@ -88,8 +88,47 @@ def searchLetter(list,element):
             return i
     return None
 
+
+def delete(T,element):
+    if T==None or len(element)==0:
+        return False
+    else:
+        value = deleteR(T.root.children,element)
+        if value == '.':
+            return True
+        else:
+            return value
+    
+def deleteR(current,element):
+    letra = searchLetter(current,element)
+    if letra != None:
+        if len(element) > 1:
+            if letra.children != None:
+                resp = deleteR(letra.children,element[1:])
+                if resp == ".":
+                    if letra.isEndOfWord:
+                        return True
+                    else:
+                        current.remove(letra)
+                        return "."
+        if letra.isEndOfWord:
+            if letra.children != None:
+                letra.isEndOfWorld = False
+            else:
+                current.remove(letra)
+                return "."
+        else:
+            return False
+    else:
+        return False
+    
+
 arbol = Trie()
 insert(arbol,"rodri")
+
+print(search(arbol,"rodri"))
+
+delete(arbol,"rodri")
 
 print(search(arbol,"rodri"))
 
