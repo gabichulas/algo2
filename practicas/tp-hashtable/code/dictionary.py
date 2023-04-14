@@ -1,9 +1,10 @@
 class DictionaryElement:
     key = None
-    value = None 
+    value = None
 
-def insert(D,key,value):
-    position = key%9
+
+def insert(D, key, value):
+    position = key % 9
     newElement = DictionaryElement()
     newElement.key = key
     newElement.value = value
@@ -14,8 +15,8 @@ def insert(D,key,value):
     return D
 
 
-def search(D,key):
-    position = key%9
+def search(D, key):
+    position = key % 9
     element = D[position]
     if D[position] == None:
         return None
@@ -26,12 +27,12 @@ def search(D,key):
         return None
 
 
-def delete(D,key):
-    position = key%9
+def delete(D, key):
+    position = key % 9
     element = D[position]
     if D[position] == None:
         return
-    elif len(element)==1:
+    elif len(element) == 1:
         D[position].clear()
     else:
         for nodo in element:
