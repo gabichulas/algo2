@@ -1,3 +1,7 @@
+from random import *
+from linkedlist import *
+from myqueue import *
+
 class GraphNode:
     vertex = None
     adjacentvertex = None
@@ -21,7 +25,7 @@ def createGraph(V,A):
     return graph
 
 def searchVertex(graph,v):
-    for i in graph:
+    for i in range(len(graph)):
         if graph[i].vertex == v:
             return graph[i]
     return None
@@ -29,16 +33,33 @@ def searchVertex(graph,v):
 def existPath(v1,v2,graph):
     vertex1 = searchVertex(graph,v1)
     vertex2 = searchVertex(graph,v2)
-    
+    visited = []
+    queue = LinkedList()
+    return existPathR(vertex2,graph,vertex1,visited,queue)
+
+def existPathR(v2,graph,pivot,list,q):
+    if len(pivot.adjacentvertex) > 0:
+        list.append(pivot.vertex)
+        for adj in range(len(pivot.adjacentvertex)):
+            if pivot.adjacentvertex[adj] == v2.vertex:
+                return True
+            elif not isInList(list,pivot.adjacentvertex[adj]):
+                enqueue(q,pivot.adjacentvertex[adj])
+        while q.head != None:
+            newPivot = searchVertex(graph,dequeue(q))
+            newQueue = LinkedList()
+            return existPathR(v2,graph,newPivot,list,newQueue)
+    return False
+
+def isInList(list,object):
+    for node in range(len(list)):
+        if list[node] == object:
+            return True
 
 
 
-
-
-
-
-vertice = [1,2,3,4]
+vertice = [1,2,3,4,5]
 aristas = [[1,2],[1,3],[2,4],[3,4]]
 grafo = createGraph(vertice,aristas)
 
-print(grafo[1].adjacentvertex)
+print(existPath(1,2,grafo))
