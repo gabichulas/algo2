@@ -73,10 +73,11 @@ def isTree(graph):
 
 def isComplete(graph):
     if isConnected(graph):
-        for vertex in graph:
-            if not (len(vertex.adjacentvertex) == len(graph) - 1):
+        for v in graph:
+            if not (len(v.adjacentvertex) == len(graph) - 1):
                 return False
-    return True
+        return True
+    return False
 
 
 def numberOfEdges(graph):
@@ -86,7 +87,7 @@ def numberOfEdges(graph):
     return grades/2
 
 vertice = [1,2,3,4]
-aristas = [[1,2],[1,4],[1,3],[2,3],[2,4]]
+aristas = [[1,3],[2,3],[2,4]]
 grafo = createGraph(vertice,aristas)
 
 print(isConnected(grafo))
