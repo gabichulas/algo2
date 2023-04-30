@@ -56,10 +56,39 @@ def isInList(list,object):
         if list[node] == object:
             return True
 
+def isConnected(graph):
+    for i in range(len(graph)):
+        for j in range(len(graph)):
+            if i==j:
+                continue
+            elif not existPath(graph[i].vertex,graph[j].vertex,graph):
+                return False
+    return True
+
+def isTree(graph):
+    if isConnected(graph):
+        if numberOfEdges(graph) == len(graph) - 1:
+            return True
+    return False
+
+def isComplete(graph):
+    if isConnected(graph):
+        for vertex in graph:
+            if not (len(vertex.adjacentvertex) == len(graph) - 1):
+                return False
+    return True
 
 
-vertice = [1,2,3,4,5]
-aristas = [[1,2],[1,3],[2,4],[3,4]]
+def numberOfEdges(graph):
+    grades = 0
+    for i in range(len(graph)):
+        grades += len(graph[i].adjacentvertex)
+    return grades/2
+
+vertice = [1,2,3,4]
+aristas = [[1,2],[1,4],[1,3],[2,3],[2,4]]
 grafo = createGraph(vertice,aristas)
 
-print(existPath(1,4,grafo))
+print(isConnected(grafo))
+
+print(isComplete(grafo))
