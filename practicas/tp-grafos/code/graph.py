@@ -89,3 +89,6 @@ def numberOfEdges(graph):
 vertice = [1,2,3,4]
 aristas = [[1,3],[2,3],[2,4]]
 grafo = createGraph(vertice,aristas)
+
+
+
