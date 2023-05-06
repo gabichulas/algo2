@@ -5,6 +5,10 @@ from myqueue import *
 class GraphNode:
     vertex = None
     adjacentvertex = None
+    color = None
+    parent = None
+    distance = None
+    time = None
 
 
 def createGraph(V,A):
@@ -147,11 +151,94 @@ def BFS(graph,node,visited):
 def convertToBFSTree(graph, v):
     if not isConnected(graph):
         return print("El grafo no es conexo, no se puede aplicar la operacion.")
-    
+    for node in graph:
+        node.color = "White"
+        node.distance = 0
+    bfslist = []
+    v.parent = None
+    v.color = "Grey"
+    q = LinkedList()
+    enqueue(q,v)
+    while q.head != None:
+        current = dequeue(q)
+        adjlist = []
+        for i in current.adjacentvertex:
+            neighbor = searchVertex(graph,i)
+            if neighbor.color == "White":
+                adjlist.append(neighbor.vertex)
+                neighbor.color = "Grey"
+                neighbor.distance = current.distance + 1
+                neighbor.parent = current
+                enqueue(q,neighbor)
+        newNode = GraphNode()
+        newNode.vertex = current.vertex
+        newNode.adjacentvertex = adjlist
+        bfslist.append(newNode)
+        current.color = "Black"
+    return bfslist
+
+def convertToDFSTree(graph,v):
+    for node in graph:
+        node.color = "White"
+    dfslist = []
+    time = 0
+    DFSR(graph,v,dfslist,time)
+    for vert in graph:
+        if vert.color == "White":
+            DFSR(graph,vert,dfslist,time)
+    return list(reversed(dfslist))
+
+
+
+def DFSR(graph,v,dfslist,time):
+    adjlist = []
+    node = GraphNode()
+    node.vertex = v.vertex
+    node.adjacentvertex = adjlist
+    if v.parent != None:
+        adjlist.append(v.parent.vertex)
+    time += 1
+    v.color = "Grey"
+    v.distance = time
+    for i in v.adjacentvertex:
+        neighbor = searchVertex(graph, i)
+        if neighbor.color == "White":
+            neighbor.parent = v
+            adjlist.append(neighbor.vertex)
+            DFSR(graph,neighbor,dfslist,time)
+    time += 1
+    v.time = time
+    v.color = "Black"
+    node.adjacentvertex = adjlist
+    dfslist.append(node)
+
+def bestRoad(graph,v1,v2):
+    for i in range(0,len(graph)):
+        graph[i].color = "White"
+        graph[i].distance = 0
+    v1.color = "Grey"
+    queue = LinkedList()
+    enqueue(queue,v1)
+    road = []
+    while queue.head != None:
+        currentnode = dequeue(queue)
+        road.append(currentnode.vertex)
+        for j in currentnode.adjacentvertex:
+            neighbor = searchVertex(graph,j)
+            if neighbor.vertex == v2.vertex:
+                road.append(v2.vertex)
+                return road
+            if neighbor.color == "White":
+                neighbor.color = "Grey"
+                neighbor.distance = currentnode.distance + 1
+                neighbor.parent = currentnode
+                enqueue(queue,neighbor)
+        currentnode.color = "Black"
+    return road
 
 
 vertice = [1,2,3,4,5]
-aristas = [[1,3],[2,3],[2,4],[1,5],[3,5]]
+aristas = [[1,3],[2,3],[2,4],[1,5],[3,5],[2,5]]
 grafo = createGraph(vertice,aristas)
 
-print(countConnections(grafo))
+print(bestRoad(grafo,grafo[0],grafo[3]))
