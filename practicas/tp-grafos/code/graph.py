@@ -236,9 +236,3 @@ def bestRoad(graph,v1,v2):
         currentnode.color = "Black"
     return road
 
-
-vertice = [1,2,3,4,5]
-aristas = [[1,3],[2,3],[2,4],[1,5],[3,5],[2,5]]
-grafo = createGraph(vertice,aristas)
-
-print(bestRoad(grafo,grafo[0],grafo[3]))
